@@ -6,16 +6,15 @@
 <title>手羽先センセーション アルバム選択</title>
 <style>
 body{font-family:sans-serif;background:#f5f5f5;margin:20px}
-h1{font-size:22px}
-.card{background:white;border-radius:12px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #ccc}
-.song{margin:6px 0}
-button{padding:12px 20px;border:0;border-radius:8px;background:#333;color:white}
-#result{background:white;padding:15px;border-radius:12px;margin-top:20px;white-space:pre-wrap}
+.card{background:#fff;padding:15px;margin:12px 0;border-radius:10px}
+.song{margin:8px 0}
+button{padding:12px 20px;border:0;border-radius:8px;background:#222;color:#fff}
+#result{background:#fff;padding:15px;margin-top:15px;border-radius:10px;line-height:1.8}
 </style>
 </head>
 <body>
 <h1>手羽先センセーション アルバム選択</h1>
-<p>焼いてほしいアルバム・曲にチェックを入れてスクリーンショットしてください。</p>
+<p>焼いてほしい曲を選択してください。</p>
 <div id="app"></div>
 <button onclick="showResult()">選択内容表示</button>
 <div id="result"></div>
@@ -25,20 +24,22 @@ fetch("data.json").then(r=>r.json()).then(d=>{
  albums=d;
  let app=document.getElementById("app");
  albums.forEach((a,i)=>{
-   let div=document.createElement("div");
-   div.className="card";
-   div.innerHTML="<h2>"+a.title+"</h2>";
-   a.songs.forEach((s,j)=>{
-     div.innerHTML+=`<div class="song"><label><input type="checkbox" data-a="${i}" data-s="${j}"> ${s}</label></div>`;
-   });
-   app.appendChild(div);
+  let c=document.createElement("div");
+  c.className="card";
+  c.innerHTML="<h2>"+a.title+"</h2>";
+  a.songs.forEach((s,j)=>{
+   c.innerHTML+=`<div class="song"><label><input type="checkbox" data-a="${i}" data-s="${j}"> ${s}</label></div>`;
+  });
+  app.appendChild(c);
  });
 });
 function showResult(){
- let text="選択内容\\n\\n";
+ let text="";
+ let n=1;
  document.querySelectorAll("input:checked").forEach(x=>{
-   let a=albums[x.dataset.a];
-   text+="・"+a.songs[x.dataset.s]+"\\n  "+a.title+"\\n";
+  let a=albums[x.dataset.a];
+  text+=n+". "+a.songs[x.dataset.s]+" / "+a.title+"\n";
+  n++;
  });
  document.getElementById("result").innerText=text;
 }
