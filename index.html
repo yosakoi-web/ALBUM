@@ -1,48 +1,14 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>手羽先センセーション アルバム選択</title>
-<style>
-body{font-family:sans-serif;background:#f5f5f5;margin:20px}
-.card{background:#fff;padding:15px;margin:12px 0;border-radius:10px}
-.song{margin:8px 0}
-button{padding:12px 20px;border:0;border-radius:8px;background:#222;color:#fff}
-#result{background:#fff;padding:15px;margin-top:15px;border-radius:10px;line-height:1.8}
-</style>
-</head>
-<body>
-<h1>手羽先センセーション アルバム選択</h1>
-<p>焼いてほしい曲を選択してください。</p>
-<div id="app"></div>
-<button onclick="showResult()">選択内容表示</button>
-<div id="result"></div>
+<html lang="ja"><head><meta charset="utf-8"><title>手羽先センセーション アルバム選択</title></head>
+<body><h1>手羽先センセーション アルバム選択</h1><div id="app"></div>
+<button onclick="showResult()">選択内容表示</button><pre id="result"></pre>
 <script>
 let albums=[];
-fetch("data.json").then(r=>r.json()).then(d=>{
- albums=d;
- let app=document.getElementById("app");
- albums.forEach((a,i)=>{
-  let c=document.createElement("div");
-  c.className="card";
-  c.innerHTML="<h2>"+a.title+"</h2>";
-  a.songs.forEach((s,j)=>{
-   c.innerHTML+=`<div class="song"><label><input type="checkbox" data-a="${i}" data-s="${j}"> ${s}</label></div>`;
-  });
-  app.appendChild(c);
- });
+fetch('data.json').then(r=>r.json()).then(d=>{
+albums=d; let app=document.getElementById('app');
+albums.forEach((a,i)=>{let c=document.createElement('div');c.innerHTML='<h2>'+a.title+'</h2>';
+a.songs.forEach((s,j)=>c.innerHTML+=`<label><input type="checkbox" data-a="${i}" data-s="${j}">${s}</label><br>`);
+app.appendChild(c);});
 });
-function showResult(){
- let text="";
- let n=1;
- document.querySelectorAll("input:checked").forEach(x=>{
-  let a=albums[x.dataset.a];
-  text+=n+". "+a.songs[x.dataset.s]+" / "+a.title+"\n";
-  n++;
- });
- document.getElementById("result").innerText=text;
-}
-</script>
-</body>
-</html>
+function showResult(){let t='';document.querySelectorAll('input:checked').forEach((x,i)=>{let a=albums[x.dataset.a];t+=(i+1)+'. '+a.songs[x.dataset.s]+' / '+a.title+'\n'});document.getElementById('result').textContent=t;}
+</script></body></html>
